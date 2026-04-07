@@ -2,6 +2,7 @@ black==22.1.0
 blue==0.9.1
 click==8.3.2
 colorama==0.4.6
+dnspython==2.8.0
 flake8==4.0.1
 isort==8.0.1
 mccabe==0.6.1
@@ -12,6 +13,7 @@ platformdirs==4.9.4
 psutil==6.1.1
 pycodestyle==2.8.0
 pyflakes==2.4.0
+pymongo==4.16.0
 python-dotenv==1.2.2
 taskipy==1.14.1
 tomli==2.4.1
