@@ -10,10 +10,17 @@ from src.utils.logger import Logger
 @click.command()
 @click.option('--env-file', default='.env', show_default=True, help='Arquivo .env a ser carregado.')
 @click.option('--log-file', default='etl.log', show_default=True, help='Arquivo de log de execução.')
+@click.option(
+    '--log-level',
+    default='INFO',
+    show_default=True,
+    type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']),
+    help='Nível de log.',
+)
 @click.option('--group', default='PROCAPI', show_default=True, help='Prefixo do grupo de variáveis de ambiente.')
 @click.option('--dry-run', is_flag=True, help='Executa o pipeline sem executar a carga final.')
-def main(env_file: str, log_file: str, group: str, dry_run: bool):
-    logger = Logger(log_file)
+def main(env_file: str, log_file: str, log_level: str, group: str, dry_run: bool):
+    logger = Logger('etl', log_file, level=log_level)
     logger.info('Iniciando pipeline ETL')
 
     loader = ConfigLoader(env_file)

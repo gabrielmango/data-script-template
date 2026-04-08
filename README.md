@@ -60,11 +60,12 @@ task run
 ### Opções de CLI
 
 ```powershell
-python main.py --env-file .env --log-file etl.log --group PROCAPI
+python main.py --env-file .env --log-file etl.log --log-level INFO --group PROCAPI
 ```
 
 - `--env-file` : arquivo de ambiente a ser carregado
 - `--log-file` : arquivo de log de execução
+- `--log-level` : nível de log (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 - `--group` : prefixo do grupo de variáveis no `.env`
 - `--dry-run` : roda o pipeline sem executar a carga final
 
