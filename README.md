@@ -57,6 +57,17 @@ python main.py
 task run
 ```
 
+### Opções de CLI
+
+```powershell
+python main.py --env-file .env --log-file etl.log --group PROCAPI
+```
+
+- `--env-file` : arquivo de ambiente a ser carregado
+- `--log-file` : arquivo de log de execução
+- `--group` : prefixo do grupo de variáveis no `.env`
+- `--dry-run` : roda o pipeline sem executar a carga final
+
 ## Uso básico
 
 1. Ajuste `main.py` para implementar as etapas do seu pipeline ETL: `extract()`, `transform()` e `load()`.
