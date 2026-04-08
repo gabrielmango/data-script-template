@@ -71,7 +71,10 @@ python main.py --env-file .env --log-file etl.log --group PROCAPI
 ## Uso básico
 
 1. Ajuste `main.py` para implementar as etapas do seu pipeline ETL: `extract()`, `transform()` e `load()`.
-2. Carregue as configurações com `ConfigLoader` em `src/utils/env_config.py`.
+2. Carregue as configurações com `ConfigLoader` em `src/utils/env_config.py`:
+   - Suporte a `.env` e variáveis de ambiente (prioridade para variáveis de sistema)
+   - Validação de chaves obrigatórias
+   - Fallback seguro quando arquivo não existe
 3. Use `Logger` em `src/utils/logger.py` para gravar eventos e erros.
 
 ## Scripts úteis

@@ -17,10 +17,18 @@ def main(env_file: str, log_file: str, group: str, dry_run: bool):
     logger.info('Iniciando pipeline ETL')
 
     loader = ConfigLoader(env_file)
-    config_group = loader.load_group(group)
 
-    logger.info(f'Configurações {group} carregadas')
-    logger.debug(f'{group} config: {config_group}')
+    # Valida se o arquivo .env existe
+    if not loader.validate_env_file():
+        logger.warning(f'Arquivo {env_file} não encontrado. Usando apenas variáveis de ambiente.')
+
+    try:
+        config_group = loader.load_group(group)
+        logger.info(f'Configurações {group} carregadas')
+        logger.debug(f'{group} config: {config_group}')
+    except ValueError as e:
+        logger.error(f'Erro na configuração: {e}')
+        raise click.Abort()
 
     data = extract()
     processed = transform(data)
