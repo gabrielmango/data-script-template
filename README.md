@@ -7,9 +7,10 @@ Template para scripts Python focados em manipulação de dados. Este repositóri
 - `main.py` — ponto de entrada para executar o pipeline ETL
 - `src/utils/env_config.py` — carregamento de variáveis de ambiente via `.env`
 - `src/utils/logger.py` — logger simples que grava em arquivo
+- `src/utils/parallel_executor.py` — executor paralelo para processamento de listas grandes
 - `src/db/postgresdb_connection.py` — conexão PostgreSQL com SQLAlchemy (queries parametrizadas, tratamento de erros)
 - `src/db/mongodb_connection.py` — conexão MongoDB com PyMongo (suporte a credenciais via config)
-- `src/pipeline/pipeline.py` — classe abstrata `ETLPipeline` com `run()` abstrato
+- `src/pipeline/base.py` — classes abstratas para pipelines ETL
 - `.env.example` — modelo de variáveis de ambiente
 - `requirements.txt` — dependências do projeto
 - `pyproject.toml` — metadados de projeto e configurações de ferramentas
@@ -132,16 +133,52 @@ pipeline = MyPipeline()
 pipeline.run()
 ```
 
+## Execução Paralela
+
+Para processamento de grandes volumes de dados, use o `ParallelExecutor`:
+
+```python
+from src.utils import ParallelExecutor, ExecutionMode
+
+def process_chunk(chunk):
+    # Processa um pedaço dos dados
+    return [item * 2 for item in chunk]
+
+# Criar executor
+executor = ParallelExecutor(
+    func=process_chunk,
+    num_parts=10,  # Divide em 10 partes
+    max_workers=4,  # Até 4 workers simultâneos
+    mode=ExecutionMode.THREADS,  # Ou PROCESSES
+    show_progress=True
+)
+
+# Executar
+data = list(range(1000))
+results = executor.run(data)  # Lista de resultados por parte
+# Ou
+flattened = executor.run_flatten(data)  # Resultado achatado
+```
+
+Características:
+- Suporte a threads e processos
+- Divisão automática e equilibrada dos dados
+- Tratamento robusto de erros
+- Progresso visual com ETA
+- Resultados na ordem original
+- Timeout configurável
+
 ## Exemplos
 
 Veja os exemplos em `examples/` que demonstram diferentes formas de usar o template:
 
 - `examples/etl_pipeline_example.py` — pipeline ETL completo com funções e carga PostgreSQL
 - `examples/class_based_etl_example.py` — pipeline ETL baseado em classes abstratas, mostrando como estender `DefaultETLPipeline` e criar passos customizados
+- `examples/parallel_executor_example.py` — demonstra o uso do `ParallelExecutor` para processamento paralelo de listas grandes
 
-Para executar o exemplo de classes:
+Para executar o exemplo de execução paralela:
 ```powershell
-python examples/class_based_etl_example.py
+python examples/parallel_executor_example.py
 ```
 
 ## Scripts úteis
