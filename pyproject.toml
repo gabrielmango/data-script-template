@@ -27,9 +27,16 @@ dev = [
     "blue==0.9.1"
 ]
 
+[project.scripts]
+etl-run = "main:main"
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+packages = ["src", "src.utils", "src.db", "src.pipeline"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

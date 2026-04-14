@@ -78,6 +78,18 @@ python main.py --env-file .env --log-file etl.log --log-level INFO --group PROCA
    - Fallback seguro quando arquivo não existe
 3. Use `Logger` em `src/utils/logger.py` para gravar eventos e erros.
 
+## API Reference
+
+Para documentação completa das classes, consulte [API.md](API.md).
+
+### Importações simplificadas
+
+```python
+from src import extract, transform, load, Logger, ConfigLoader, PostgresConnection, MongoDBConnection
+```
+
+Todos os componentes principais estão exportados no nível do pacote `src` para importação conveniente.
+
 ## Exemplos
 
 Veja `examples/etl_pipeline_example.py` para um pipeline ETL completo que demonstra:
@@ -96,7 +108,13 @@ python examples/etl_pipeline_example.py
 - `create_project.ps1` — cria ambiente virtual e gera `requirements.txt`
 - `start_project.ps1` — cria/ativa ambiente e instala dependências já existentes
 
-## Desenvolvimento
+## Documentação
+
+- [API.md](API.md) — Referência completa das classes e funções
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Guia para contribuições
+- [CHANGELOG.md](CHANGELOG.md) — Histórico de mudanças
+
+## Observações
 
 ### Instalação para desenvolvimento
 
