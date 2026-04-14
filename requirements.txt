@@ -4,7 +4,7 @@ cfgv==3.5.0
 click==8.3.2
 colorama==0.4.6
 coverage==7.13.5
--e git+https://github.com/gabrielmango/data-script-template.git@248337848d5603712db62a1e31e1900d9c3ff0cc#egg=data_script_template
+-e git+https://github.com/gabrielmango/data-script-template.git@ff6fb732055e6543b823e2d9fc4d645c75ff509c#egg=data_script_template
 distlib==0.4.0
 dnspython==2.8.0
 filelock==3.25.2
