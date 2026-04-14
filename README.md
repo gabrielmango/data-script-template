@@ -9,6 +9,7 @@ Template para scripts Python focados em manipulação de dados. Este repositóri
 - `src/utils/logger.py` — logger simples que grava em arquivo
 - `src/db/postgresdb_connection.py` — conexão PostgreSQL com SQLAlchemy (queries parametrizadas, tratamento de erros)
 - `src/db/mongodb_connection.py` — conexão MongoDB com PyMongo (suporte a credenciais via config)
+- `src/pipeline/pipeline.py` — classe abstrata `ETLPipeline` com `run()` abstrato
 - `.env.example` — modelo de variáveis de ambiente
 - `requirements.txt` — dependências do projeto
 - `pyproject.toml` — metadados de projeto e configurações de ferramentas
@@ -90,17 +91,57 @@ from src import extract, transform, load, Logger, ConfigLoader, PostgresConnecti
 
 Todos os componentes principais estão exportados no nível do pacote `src` para importação conveniente.
 
+## ETL orientado a classes
+
+O template agora usa classes abstratas para manter o mesmo padrão em todas as implementações:
+
+- `ExtractStep` — passo de extração
+- `TransformStep` — passo de transformação
+- `LoadStep` — passo de carga
+- `ETLPipeline` — orquestração do pipeline
+
+Use a implementação padrão ou crie seus próprios filhos:
+
+```python
+from src.pipeline import DefaultETLPipeline, DefaultExtractStep, DefaultTransformStep, DefaultLoadStep
+
+class MyExtractStep(DefaultExtractStep):
+    def extract(self):
+        return [1, 2, 3]
+
+class MyTransformStep(DefaultTransformStep):
+    def transform(self, data):
+        return [x * 2 for x in data]
+
+class MyLoadStep(DefaultLoadStep):
+    def load(self, data):
+        print(data)
+        return len(data)
+
+class MyPipeline(DefaultETLPipeline):
+    def __init__(self):
+        super().__init__()
+        self.extract_step = MyExtractStep()
+        self.transform_step = MyTransformStep()
+        self.load_step = MyLoadStep()
+
+    def get_name(self):
+        return 'my_pipeline'
+
+pipeline = MyPipeline()
+pipeline.run()
+```
+
 ## Exemplos
 
-Veja `examples/etl_pipeline_example.py` para um pipeline ETL completo que demonstra:
-- Extração de dados CSV
-- Transformação de dados
-- Carregamento em PostgreSQL
-- Tratamento de erros e logging
+Veja os exemplos em `examples/` que demonstram diferentes formas de usar o template:
 
-Para executar o exemplo:
+- `examples/etl_pipeline_example.py` — pipeline ETL completo com funções e carga PostgreSQL
+- `examples/class_based_etl_example.py` — pipeline ETL baseado em classes abstratas, mostrando como estender `DefaultETLPipeline` e criar passos customizados
+
+Para executar o exemplo de classes:
 ```powershell
-python examples/etl_pipeline_example.py
+python examples/class_based_etl_example.py
 ```
 
 ## Scripts úteis

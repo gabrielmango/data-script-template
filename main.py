@@ -1,8 +1,6 @@
 import click
 
-from src.pipeline.etl_extract import extract
-from src.pipeline.etl_load import load
-from src.pipeline.etl_transform import transform
+from src.pipeline import DefaultETLPipeline
 from src.utils.env_config import ConfigLoader
 from src.utils.logger import Logger
 
@@ -37,14 +35,8 @@ def main(env_file: str, log_file: str, log_level: str, group: str, dry_run: bool
         logger.error(f'Erro na configuração: {e}')
         raise click.Abort()
 
-    data = extract()
-    processed = transform(data)
-
-    if dry_run:
-        logger.info('Dry-run ativado: etapa de carga será simulada, sem persistência.')
-        rows = len(processed)
-    else:
-        rows = load(processed)
+    pipeline = DefaultETLPipeline()
+    rows = pipeline.run(dry_run=dry_run)
 
     logger.info(f'Pipeline ETL concluído com {rows} registros processados')
 

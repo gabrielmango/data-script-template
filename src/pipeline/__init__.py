@@ -1,7 +1,18 @@
-"""Módulo de pipeline ETL com funções de extração, transformação e carga."""
+"""Módulo de pipeline ETL com classes abstratas e implementações padrão."""
 
-from src.pipeline.etl_extract import extract
-from src.pipeline.etl_load import load
-from src.pipeline.etl_transform import transform
+from src.pipeline.base import ETLPipeline, ExtractStep, LoadStep, TransformStep
+from src.pipeline.default_extract import DefaultExtractStep
+from src.pipeline.default_load import DefaultLoadStep
+from src.pipeline.default_pipeline import DefaultETLPipeline
+from src.pipeline.default_transform import DefaultTransformStep
 
-__all__ = ['extract', 'transform', 'load']
+__all__ = [
+    'ExtractStep',
+    'TransformStep',
+    'LoadStep',
+    'ETLPipeline',
+    'DefaultExtractStep',
+    'DefaultTransformStep',
+    'DefaultLoadStep',
+    'DefaultETLPipeline',
+]

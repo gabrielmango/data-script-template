@@ -10,9 +10,9 @@ import io
 from typing import Any, Dict, List
 
 from src.db.postgresdb_connection import PostgresConnection
-from src.pipeline.etl_extract import extract
-from src.pipeline.etl_load import load
-from src.pipeline.etl_transform import transform
+from src.pipeline.default_extract import extract
+from src.pipeline.default_load import load
+from src.pipeline.default_transform import transform
 from src.utils.env_config import ConfigLoader
 from src.utils.logger import Logger
 
