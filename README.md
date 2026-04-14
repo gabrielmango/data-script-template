@@ -7,8 +7,8 @@ Template para scripts Python focados em manipulação de dados. Este repositóri
 - `main.py` — ponto de entrada para executar o pipeline ETL
 - `src/utils/env_config.py` — carregamento de variáveis de ambiente via `.env`
 - `src/utils/logger.py` — logger simples que grava em arquivo
-- `src/db/postgresdb_connection.py` — conexão PostgreSQL com SQLAlchemy
-- `src/db/mongodb_connection.py` — conexão MongoDB com pymongo
+- `src/db/postgresdb_connection.py` — conexão PostgreSQL com SQLAlchemy (queries parametrizadas, tratamento de erros)
+- `src/db/mongodb_connection.py` — conexão MongoDB com PyMongo (suporte a credenciais via config)
 - `.env.example` — modelo de variáveis de ambiente
 - `requirements.txt` — dependências do projeto
 - `pyproject.toml` — metadados de projeto e configurações de ferramentas
