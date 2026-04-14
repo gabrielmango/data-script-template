@@ -16,9 +16,27 @@ dependencies = [
     "pymongo==4.16.0"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pre-commit>=3.0.0",
+    "black==22.1.0",
+    "isort==8.0.1",
+    "flake8==4.0.1",
+    "blue==0.9.1"
+]
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=src --cov-report=html --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
 
 [tool.taskipy.tasks]
 hello = "echo 'Woring...'"
@@ -31,7 +49,10 @@ format = "blue . && isort ."
 pre_commit = 'task format && task requirements && task config_git && git status && git add . && git status'
 commit = "git commit -m"
 post_commit = "git push"
-run = "python main.py"
+test = "pytest"
+test-cov = "pytest --cov=src --cov-report=html"
+lint = "flake8 src tests"
+install-dev = "pip install -e '.[dev]'"
 
 [tool.blue]
 line-length = 120

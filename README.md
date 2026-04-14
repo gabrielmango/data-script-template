@@ -78,13 +78,74 @@ python main.py --env-file .env --log-file etl.log --log-level INFO --group PROCA
    - Fallback seguro quando arquivo não existe
 3. Use `Logger` em `src/utils/logger.py` para gravar eventos e erros.
 
+## Exemplos
+
+Veja `examples/etl_pipeline_example.py` para um pipeline ETL completo que demonstra:
+- Extração de dados CSV
+- Transformação de dados
+- Carregamento em PostgreSQL
+- Tratamento de erros e logging
+
+Para executar o exemplo:
+```powershell
+python examples/etl_pipeline_example.py
+```
+
 ## Scripts úteis
 
 - `create_project.ps1` — cria ambiente virtual e gera `requirements.txt`
 - `start_project.ps1` — cria/ativa ambiente e instala dependências já existentes
 
-## Observações
+## Desenvolvimento
 
-- Não comite o arquivo `.env` com valores reais.
-- O diretório `logs/` é ignorado pelo Git para evitar commit de arquivos de log.
-- Se quiser suporte adicional a CLI, o template já inclui dependências como `click`.
+### Instalação para desenvolvimento
+
+```powershell
+pip install -e ".[dev]"
+```
+
+### Executar testes
+
+```powershell
+# Todos os testes
+pytest
+
+# Com cobertura
+pytest --cov=src --cov-report=html
+
+# Via Taskipy
+task test
+task test-cov
+```
+
+### Pre-commit hooks
+
+Instale os hooks de pre-commit para automatizar linting e formatação:
+
+```powershell
+pre-commit install
+```
+
+Execute manualmente em todos os arquivos:
+
+```powershell
+pre-commit run --all-files
+```
+
+### Linting e formatação
+
+```powershell
+# Formatação automática
+task format
+
+# Linting
+task lint
+```
+
+### Testes implementados
+
+- **ConfigLoader**: carregamento de variáveis de ambiente, validação de arquivos, grupos de configuração
+- **Logger**: inicialização, níveis de log, rotação de arquivos, formatação
+- **Conexões DB**: testes básicos de inicialização e validação (PostgreSQL e MongoDB)
+
+Os testes usam mocks para evitar dependências externas e garantem isolamento.
